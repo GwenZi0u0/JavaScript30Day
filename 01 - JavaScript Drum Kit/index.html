@@ -10,7 +10,6 @@
 
 <body>
 
-
   <div class="keys">
     <div data-key="65" class="key">
       <kbd>A</kbd>
@@ -61,13 +60,14 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
   <script>
-    // 釋放按鍵的瞬間 = true
-    let isUp = true;
+    // 建立按鈕已按下的list
+    let isDown = [];
     // e => event
     function playSound(e) {
-      if (isUp) {
-        // 按下的時候 = false
-        isUp = false;
+      // 如果已經按下的不處理
+      if (!(isDown.includes(e.key))) {
+        //按下,播放,把e.key推到list裡面
+        isDown.push(e.key);
         // audio 取得音效
         const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
         // div 按鈕元素控制
@@ -87,30 +87,31 @@
         // (5)item(index)=>案索引返回指定位置,索引從0開始
         // (6)replace(oldClasss,newClass)新的類別替換class指頂類別
         key.classList.add('playing');
-      }
-    }
-    //設一個變回true的函數
+      };
+    };
+    //放開按紐時,結束按鈕樣式和音效
     function playSoundUp(e) {
-      isUp = true;
-    }
-    // 元素控制並監聽,移除元素樣式
+      //按鈕過濾(EX.按鈕a.s.d =>鬆開按鈕a 留下的按鈕s.d)
+      isDown = isDown.filter(key => key !== e.key);
+      //執行removetransition
+      removetransition(e);
+    };
+    // 移除元素樣式
     function removetransition(e) {
-      // 屬性名 不等於 transform屬性 則結束
-      if (e.propertyName !== 'transform') return;
-      // console.log(e.propertyName);
-      // console.log(this);
-      // this 觸發'transitionend'DOM元素
-      // key 過度完成 清除playing的動畫
-      this.classList.remove('playing');
-    }
+      keys.forEach(key => {
+        let k = key.querySelector("kbd");
+        // 如果k文字===鬆開按鈕的字母(toUpperCase = 轉大寫)
+        //就把按鈕移除樣式
+        if (k.textContent === e.key.toUpperCase()) {
+          key.classList.remove('playing');
+          return;
+        };
+      });
+    };
     //監聽所有的.key
     const keys = document.querySelectorAll('.key');
-    // keys.addEventListener('transition')
-    // 所有的key迴圈
-    keys.forEach(key => key.addEventListener('transitionend', removetransition))
     //監聽鍵盤動作 => keydown
     //key : keydown(捕捉正在按下的鍵)、keyup(釋放按鍵的瞬間)、keypress(捕捉實際輸入的字符)
-
     //執行
     window.addEventListener('keydown', playSound);
     window.addEventListener('keyup', playSoundUp);
