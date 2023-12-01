@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>JS Drum Kit</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="https://fav.farm/🔥" />
+</head>
+
+<body>
+
+
+  <div class="keys">
+    <div data-key="65" class="key">
+      <kbd>A</kbd>
+      <span class="sound">clap</span>
+    </div>
+    <div data-key="83" class="key">
+      <kbd>S</kbd>
+      <span class="sound">hihat</span>
+    </div>
+    <div data-key="68" class="key">
+      <kbd>D</kbd>
+      <span class="sound">kick</span>
+    </div>
+    <div data-key="70" class="key">
+      <kbd>F</kbd>
+      <span class="sound">openhat</span>
+    </div>
+    <div data-key="71" class="key">
+      <kbd>G</kbd>
+      <span class="sound">boom</span>
+    </div>
+    <div data-key="72" class="key">
+      <kbd>H</kbd>
+      <span class="sound">ride</span>
+    </div>
+    <div data-key="74" class="key">
+      <kbd>J</kbd>
+      <span class="sound">snare</span>
+    </div>
+    <div data-key="75" class="key">
+      <kbd>K</kbd>
+      <span class="sound">tom</span>
+    </div>
+    <div data-key="76" class="key">
+      <kbd>L</kbd>
+      <span class="sound">tink</span>
+    </div>
+  </div>
+
+  <audio data-key="65" src="sounds/clap.wav"></audio>
+  <audio data-key="83" src="sounds/hihat.wav"></audio>
+  <audio data-key="68" src="sounds/kick.wav"></audio>
+  <audio data-key="70" src="sounds/openhat.wav"></audio>
+  <audio data-key="71" src="sounds/boom.wav"></audio>
+  <audio data-key="72" src="sounds/ride.wav"></audio>
+  <audio data-key="74" src="sounds/snare.wav"></audio>
+  <audio data-key="75" src="sounds/tom.wav"></audio>
+  <audio data-key="76" src="sounds/tink.wav"></audio>
+
+  <script>
+    // 釋放按鍵的瞬間 = true
+    let isUp = true;
+    // e => event
+    function playSound(e) {
+      if (isUp) {
+        // 按下的時候 = false
+        isUp = false;
+        // audio 取得音效
+        const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+        // div 按鈕元素控制
+        const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+        //條件語句:檢查變數audio是否為falsy,(null.undefined.false.0."".NaN => faly)
+        //return =>立即結束該函式執行,避免往下執行時發生錯誤
+        if (!audio) return;
+        // 將播放時間設置為0,重置
+        audio.currentTime = 0;
+        // 播放音效
+        audio.play();
+        // key.addClass('playing'); => jQuery的函式
+        // DOM元素(document obj)
+        // DOMTokenList => class屬性obj ,例如: (1)add添加(2)remove移除
+        // (3)toggle(class,force)切換類別,指定force參數則強制加或減
+        // (4)contain =>是否包含屬性類別
+        // (5)item(index)=>案索引返回指定位置,索引從0開始
+        // (6)replace(oldClasss,newClass)新的類別替換class指頂類別
+        key.classList.add('playing');
+      }
+    }
+    //設一個變回true的函數
+    function playSoundUp(e) {
+      isUp = true;
+    }
+    // 元素控制並監聽,移除元素樣式
+    function removetransition(e) {
+      // 屬性名 不等於 transform屬性 則結束
+      if (e.propertyName !== 'transform') return;
+      // console.log(e.propertyName);
+      // console.log(this);
+      // this 觸發'transitionend'DOM元素
+      // key 過度完成 清除playing的動畫
+      this.classList.remove('playing');
+    }
+    //監聽所有的.key
+    const keys = document.querySelectorAll('.key');
+    // keys.addEventListener('transition')
+    // 所有的key迴圈
+    keys.forEach(key => key.addEventListener('transitionend', removetransition))
+    //監聽鍵盤動作 => keydown
+    //key : keydown(捕捉正在按下的鍵)、keyup(釋放按鍵的瞬間)、keypress(捕捉實際輸入的字符)
+
+    //執行
+    window.addEventListener('keydown', playSound);
+    window.addEventListener('keyup', playSoundUp);
+  </script>
+
+
+</body>
+
+</html>
