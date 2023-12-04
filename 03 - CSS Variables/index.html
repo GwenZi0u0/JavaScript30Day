@@ -69,9 +69,15 @@
   </style>
 
   <script>
+    // this => html元素
     const inputs = document.querySelectorAll('.controls input');
     function handleUpdate() {
+      // || => OR運算符
+      // suffix => dataset.sizing 不存在則 => 空字符串
       const suffix = this.dataset.sizing || '';
+      // document.documentElemen => html元素
+      // (`--${this.name}` => css變數,通常--開頭
+      // this.value + suffix => 指令屬性值
       document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
       // console.log(this.vlau);
     }
