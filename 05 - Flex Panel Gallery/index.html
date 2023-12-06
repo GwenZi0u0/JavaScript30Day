@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Flex Panels 💪</title>
   <link href='https://fonts.googleapis.com/css?family=Amatic+SC' rel='stylesheet' type='text/css'>
   <link rel="icon" href="https://fav.farm/🔥" />
 </head>
+
 <body>
   <style>
     html {
@@ -20,46 +22,92 @@
       margin: 0;
     }
 
-    *, *:before, *:after {
+    *,
+    *:before,
+    *:after {
+      /* inherit繼承 */
       box-sizing: inherit;
     }
 
     .panels {
       min-height: 100vh;
       overflow: hidden;
+      display: flex;
     }
 
     .panel {
       background: #6B0F9C;
-      box-shadow: inset 0 0 0 5px rgba(255,255,255,0.1);
+      box-shadow: inset 0 0 0 5px rgba(255, 255, 255, 0.1);
       color: white;
       text-align: center;
       align-items: center;
       /* Safari transitionend event.propertyName === flex */
       /* Chrome + FF transitionend event.propertyName === flex-grow */
       transition:
-        font-size 0.7s cubic-bezier(0.61,-0.19, 0.7,-0.11),
-        flex 0.7s cubic-bezier(0.61,-0.19, 0.7,-0.11),
+        font-size 0.7s cubic-bezier(0.61, -0.19, 0.7, -0.11),
+        flex 0.7s cubic-bezier(0.61, -0.19, 0.7, -0.11),
         background 0.2s;
       font-size: 20px;
       background-size: cover;
       background-position: center;
+      /* 彈性排版 */
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
 
-    .panel1 { background-image:url(https://source.unsplash.com/gYl-UtwNg_I/1500x1500); }
-    .panel2 { background-image:url(https://source.unsplash.com/rFKUFzjPYiQ/1500x1500); }
-    .panel3 { background-image:url(https://images.unsplash.com/photo-1465188162913-8fb5709d6d57?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&cs=tinysrgb&w=1500&h=1500&fit=crop&s=967e8a713a4e395260793fc8c802901d); }
-    .panel4 { background-image:url(https://source.unsplash.com/ITjiVXcwVng/1500x1500); }
-    .panel5 { background-image:url(https://source.unsplash.com/3MNzGlQM7qs/1500x1500); }
+    .panel1 {
+      background-image: url(https://source.unsplash.com/gYl-UtwNg_I/1500x1500);
+    }
 
-    /* Flex Children */
-    .panel > * {
+    .panel2 {
+      background-image: url(https://source.unsplash.com/rFKUFzjPYiQ/1500x1500);
+    }
+
+    .panel3 {
+      background-image: url(https://images.unsplash.com/photo-1465188162913-8fb5709d6d57?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&cs=tinysrgb&w=1500&h=1500&fit=crop&s=967e8a713a4e395260793fc8c802901d);
+    }
+
+    .panel4 {
+      background-image: url(https://source.unsplash.com/ITjiVXcwVng/1500x1500);
+    }
+
+    .panel5 {
+      background-image: url(https://source.unsplash.com/3MNzGlQM7qs/1500x1500);
+    }
+
+    /* Flex Items */
+    .panel>* {
       margin: 0;
       width: 100%;
       transition: transform 0.5s;
+      flex: 1 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* * => 通用選擇器; > => 子代選擇器; :first-child => 組合選擇器:選取第一個子元素; :last-child => 組合選擇器:選取最後一個子元素 */
+    .panel>*:first-child {
+      transform: translateY(-100%);
+    }
+
+    .panel.open-active>*:first-child {
+      transform: translateY(0);
+    }
+
+    .panel>*:last-child {
+      transform: translateY(100%);
+    }
+
+    .panel.open-active>*:last-child {
+      transform: translateY(0);
     }
 
     .panel p {
+      /* 大寫字母 */
       text-transform: uppercase;
       font-family: 'Amatic SC', cursive;
       text-shadow: 0 0 4px rgba(0, 0, 0, 0.72), 0 0 14px rgba(0, 0, 0, 0.45);
@@ -72,8 +120,8 @@
 
     .panel.open {
       font-size: 40px;
+      flex: 5;
     }
-
   </style>
 
 
@@ -107,9 +155,21 @@
 
   <script>
 
+    const panels = document.querySelectorAll('.panel');
+
+    function toggleOpen() {
+      this.classList.toggle('open');
+    };
+    function toggleActive(e) {
+      // console.log(e.propertyName);
+      if (e.propertyName.includes('flex')) {
+        this.classList.toggle('open-active');
+      }
+    }
+    // 點下展開圖, 執行文字動畫顯示
+    panels.forEach(panel => panel.addEventListener('click', toggleOpen));
+    panels.forEach(panel => panel.addEventListener('transitionend', toggleActive));
   </script>
-
-
-
 </body>
+
 </html>
