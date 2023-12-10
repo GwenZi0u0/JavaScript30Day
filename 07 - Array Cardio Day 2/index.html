@@ -43,7 +43,7 @@
     console.log(tmp2Some);
     // 第四版 => JS30寫法-some()
     // const currentYear = (new Date()).getFullYear();
-    const isAdult = people.some(person => ((new Date()).getFullYear()) - person.year >= 19 );
+    const isAdult = people.some(person => ((new Date()).getFullYear()) - person.year >= 19);
     console.log(isAdult);
 
     // Array.prototype.every() // is everyone 19 or older? 大家都是19歲或以上的嗎？
@@ -92,7 +92,7 @@
     comments.forEach((comment) => {
       if (comment.id != 823423) {
         com3.push(comment);
-      }
+      };
     })
     console.table(com3);
     // 第二版 => filter
@@ -118,6 +118,14 @@
     console.log(com5FindIndex);
     comments.splice(com5FindIndex, 1);
     console.table(comments);
+    // 第五版 => JS30原版-findIndex()
+    const index = comments.findIndex(comment => comment.id === 823423);
+    console.log(index);
+    const newComments = [
+      ...comments.slice(0, index),
+      ...comments.slice(index + 1)
+    ];
+    console.table(newComments);
   </script>
 </body>
 
