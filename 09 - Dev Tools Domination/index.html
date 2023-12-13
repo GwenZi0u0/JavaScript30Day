@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Console Tricks!</title>
   <link rel="icon" href="https://fav.farm/🔥" />
 </head>
+
 <body>
 
   <p onClick="makeGreen()">×BREAK×DOWN×</p>
 
   <script>
+    // 陣列
     const dogs = [{ name: 'Snickers', age: 2 }, { name: 'hugo', age: 8 }];
 
     function makeGreen() {
@@ -18,30 +21,59 @@
       p.style.fontSize = '50px';
     }
 
-    // Regular
+    // Regular 有規律的
+    console.log('Regular');
+    // Interpolated 插入
+    console.log('This %s Interpolated', '★');
+    // Styled 樣式
+    console.log('%c Styled', 'font-size:30px;background:yellow;text-shadow: 10px 10px 0 green;');
+    // warning! 警告!
+    console.warn('STOP!!');
+    // Error :| 錯誤:|
+    console.error('ERROR');
+    // Info 資訊
+    console.info('Good Dinner!!');
+    // Testing 測試
+    const p = document.querySelector('p');
 
-    // Interpolated
+    console.assert(p.classList.contains('ouch'), 'Wrong~');
+    // clearing 清除
+    console.clear();
+    // Viewing DOM Elements 查看DOM元素
+    console.log(p);
+    console.dir(p);
 
-    // Styled
+    console.clear();
+    // Grouping together 分組再一起 群組狗狗名字
+    dogs.forEach(dog => {
+      console.group('${dog.name}');
+      console.log(`This is ${dog.name}`);
+      console.log(`I ${dog.name} and ${dog.age} ages.`);
+      console.log(`${dog.name} is ${dog.age * 7} dog years.`);
+      console.groupEnd(`${dog.name}`);
+    });
 
-    // warning!
+    // counting 計算 出現次數
+    console.count('Wes');
+    console.count('Ken');
+    console.count('Wes');
+    console.count('Ken');
+    console.count('Ken');
+    console.count('Mary');
+    console.count('Mary');
 
-    // Error :|
+    // timing 計時
+    console.time('fetching data');
+    fetch('https://api.github.com/users/wesbos')
+      .then(data => data.json())
+      // 資料取得所花費的時間 'fetching data 資料取得';'Duration 持續時間'
+      .then(data => {
+        console.timeEnd('fetching data');
+        console.log(data);
+      });
 
-    // Info
-
-    // Testing
-
-    // clearing
-
-    // Viewing DOM Elements
-
-    // Grouping together
-
-    // counting
-
-    // timing
-
+    console.table(dogs);
   </script>
 </body>
+
 </html>
