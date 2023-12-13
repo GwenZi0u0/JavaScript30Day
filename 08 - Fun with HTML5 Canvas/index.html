@@ -6,69 +6,77 @@
   <title>HTML5 Canvas</title>
   <link rel="icon" href="https://fav.farm/🔥" />
 </head>
-<style>
-  canvas {
-    border: 1px solid #000;
-  }
-</style>
 
 <body>
   <canvas id="draw" width="800" height="800"></canvas>
   <script>
     // Canvas渲染環境
     const canvas = document.querySelector('#draw');
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+    // 筆觸樣式
     ctx.strokeStyle = '#BADA55';
+    // 線接合點
     ctx.lineJoin = 'round';
+    // 線端形狀
     ctx.lineCap = 'round';
+    // 線條粗細
     ctx.lineWidth = 100;
+    // 混和模式的視覺效果
     // ctx.globalCompositeOperation = 'multiply';
 
+    // 繪圖
     let isDrawing = false;
     let lastX = 0;
     let lastY = 0;
+    // 色調
     let hue = 0;
+    // 方向
     let direction = true;
 
+    // 是否在繪圖
     function draw(e) {
+      // 如果沒有在繪圖 停止
       if (!isDrawing) return;
       console.log(e);
+      // 設置為 HSL 顏色值
       ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
       ctx.beginPath();
-      // 開始來自
+      // 游標移動到的座標
       ctx.moveTo(lastX, lastY);
-      // 去
-      ctx.lineTo(e.offsetX, e.offsetY)
+      // 建立一條座標線
+      ctx.lineTo(e.offsetX, e.offsetY);
       ctx.stroke();
+      // 更新座標
       [lastX, lastY] = [e.offsetX, e.offsetY];
+      // 增加色調值
       hue++;
       if (hue >= 360) {
         hue = 0;
       }
       if (ctx.lineWidth >= 100 || ctx.lineWidth <= 1) {
-        direction = !derection;
+        direction = !direction;
       }
+
       if (direction) {
         ctx.lineWidth++;
       } else {
         ctx.lineWidth--;
       }
     }
-
-
+    // 當滑鼠按下時 繪畫
     canvas.addEventListener('mousedown', (e) => {
       isDrawing = true;
       [lastX, lastY] = [e.offsetX, e.offsetY];
     });
 
-
+    // 滑鼠按下 繪畫
     canvas.addEventListener('mousemove', draw);
+    // 滑鼠放開 停止繪畫
     canvas.addEventListener('mouseup', () => isDrawing = false);
+    // 滑鼠離開(移出) 停止繪畫
     canvas.addEventListener('mouseout', () => isDrawing = false);
-
-
 
   </script>
 
