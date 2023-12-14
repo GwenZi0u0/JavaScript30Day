@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Hold Shift to Check Multiple Checkboxes</title>
   <link rel="icon" href="https://fav.farm/🔥" />
 </head>
+
 <body>
   <style>
-
     html {
       font-family: sans-serif;
       background: #ffc600;
@@ -18,7 +19,7 @@
       margin: 50px auto;
       background: white;
       border-radius: 5px;
-      box-shadow: 10px 10px 0 rgba(0,0,0,0.1);
+      box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.1);
     }
 
     .item {
@@ -31,7 +32,7 @@
       border-bottom: 0;
     }
 
-    input:checked + p {
+    input:checked+p {
       background: #F9F9F9;
       text-decoration: line-through;
     }
@@ -45,17 +46,19 @@
       padding: 20px;
       transition: background 0.2s;
       flex: 1;
-      font-family:'helvetica neue';
+      font-family: 'helvetica neue';
       font-size: 20px;
       font-weight: 200;
       border-left: 1px solid #D1E2FF;
     }
   </style>
-   <!--
+  <!--
    The following is a common layout you would see in an email client.
 
    When a user clicks a checkbox, holds Shift, and then clicks another checkbox a few rows down, all the checkboxes inbetween those two checkboxes should be checked.
 
+   以下是您在電子郵件客戶端中可能看到的常見佈局。
+    當用戶點擊一個複選框，按住 Shift 鍵，然後再點擊幾行下方的另一個複選框時，兩個複選框之間的所有複選框都應該被勾選。
   -->
   <div class="inbox">
     <div class="item">
@@ -96,7 +99,43 @@
     </div>
   </div>
 
-<script>
-</script>
+  <script>
+    // 取得所有的checkbox元素
+    const checkboxes = document.querySelectorAll('.inbox input[type="checkbox"]');
+    // console.log(checkboxes);
+    // 保存上次選中的checkbox
+    let lastChecked;
+    // handleCheck點擊事件
+    function handleCheck(e) {
+      // console.log(e);
+      // 檢查是否按下Shift鍵
+      const isShiftDown = e.shiftKey;
+      if (isShiftDown && e.target.checked) {
+        // 初始化
+        let inBetween = false;
+        checkboxes.forEach((checkbox) => {
+          // 如果checkbox是當前checkbox或上次選中checkbox ,初始化範圍
+          if (checkbox === this || checkbox === lastChecked) {
+            // 翻轉 打勾變沒勾
+            inBetween = !inBetween;
+          }
+          if (inBetween) {
+            // 打勾
+            checkbox.checked = true;
+          } else {
+            // 沒勾
+            checkbox.checked = false;
+          }
+        });
+      }
+      // 給予當前狀態的值=>lastChecked
+      lastChecked = this;
+    }
+    // checkboxes點擊事件
+    checkboxes.forEach((checkbox) => {
+      checkbox.addEventListener('click', handleCheck);
+    })
+  </script>
 </body>
+
 </html>
