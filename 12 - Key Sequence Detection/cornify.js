@@ -279,8 +279,8 @@ var cornify_replace = function () {
   }
 };
 
-// Clicking the rainbow cupcake button makes all the unicorns
-// disappear (should only be used in an emergency, since it's sad).
+// Clicking the rainbow cupcake button makes all the unicorns 點擊彩虹杯子蛋糕按鈕會使所有的獨角獸
+// disappear (should only be used in an emergency, since it's sad). 消失（只應在緊急情況下使用，因為這很傷心）。
 var cornify_click_cupcake_button = function () {
   var doc = document;
 
