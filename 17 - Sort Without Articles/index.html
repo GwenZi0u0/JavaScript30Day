@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Sort Without Articles</title>
   <link rel="icon" href="https://fav.farm/🔥" />
 </head>
+
 <body>
 
   <style>
@@ -41,16 +43,48 @@
       color: #ffc600;
       text-decoration: none;
     }
-
   </style>
 
   <ul id="bands"></ul>
 
-<script>
-const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'];
+  <script>
+    const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'];
+
+    // 以a,the,an的順序排列 =>replace函式 "xxx".replace("", "_"); // "_xxx"
+    function strip(bandName) {
+      return bandName.replace(/^(a |the |an)/i, '').trim();
+    }
+    // strip的函式 返回1與返回-1
+    //   if (strip(a) > strip(b)) {
+    //   return 1;
+    // } else {
+    //   return -1;
+    // }
+    const sortedBands = bands.sort((a, b) => strip(a) > strip(b) ? 1 : -1);
+
+    // console.log(sortedBands);
+
+    // map => object
+    document.querySelector('#bands').innerHTML =
+      sortedBands.map(band => `<li>${band}</li>`)
+        .join('');
+
+    // 一般清單排序寫法
+    // const ulElement = document.createElement("ul");
+    // // console.log(ulElement);
+    // // 為bands陣列創建li元素，並將文字設為陣列中的值
+    // bands.forEach(band => {
+    //   const liElement = document.createElement("li");
+    //   liElement.textContent = band;
+    //   // li元素添加到ul
+    //   ulElement.appendChild(liElement);
+    // });
+    // // 將ul套入#bands CSS中
+    // document.getElementById("bands").appendChild(ulElement);
 
 
-</script>
+  </script>
 
 </body>
+
 </html>
