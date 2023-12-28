@@ -52,7 +52,10 @@
           </li>
         `;
       }).join('');
+      // join將所有陣列元素連在一起
       suggestions.innerHTML = html;
+      // 每次動到innerHTML,瀏覽器就會重新刷新，陣列有多少元素就刷新幾次 =>效率低
+      // 使用map會比較好
     }
 
     const searchInput = document.querySelector('.search');
