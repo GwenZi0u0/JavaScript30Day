@@ -32,27 +32,36 @@
 
     console.log(players, team);
     // You might think we can just do something like this:
-    team[3] = 'Lux';
-    
-    // however what happens when we update that array?
+    // team[3] = 'Lux';
+
+    // however what happens when we update that array?更新數據時會發生?
 
     // now here is the problem!
 
     // oh no - we have edited the original array too!
+    // 我們編輯了原始數組。
 
     // Why? It's because that is an array reference, not an array copy. They both point to the same array!
+    // 因為那是一個數值引用，而不是一個數值副本，他們都指向同一個array
 
     // So, how do we fix this? We take a copy instead!
+    const team2 = players.slice();
 
     // one way
 
     // or create a new array and concat the old one in
+    // 或創建一個新數組，並將數組相連再一起
+    const team3 = [].concat(players);
+    // or use the new ES6 Spread或者使用新的ES6 Spread
+    const team4 = [...players];
+    team4[3] = 'hearttttttt';
+    console.log(team4);
 
-    // or use the new ES6 Spread
-
+    const team5 = Array.from(players);
     // now when we update it, the original one isn't changed
-
+    // 更新數組時，我們沒有去改變到原數組。
     // The same thing goes for objects, let's say we have a person object
+    // 同樣的原理依樣可以使用到物件中。
 
     // with Objects
     const person = {
@@ -61,12 +70,27 @@
     };
 
     // and think we make a copy:
+    // const captain = person;
+    // captain.number = '99';
 
     // how do we take a copy instead?
-
+    const cap2 = Object.assign({}, person, { number: 99, age: 24 });
+    console.log(cap2);
     // We will hopefully soon see the object ...spread
+    const cap3 = { ...person };
 
     // Things to note - this is only 1 level deep - both for Arrays and Objects. lodash has a cloneDeep method, but you should think twice before using it.
+    // 需要注意的事項-這只有1個層級深度-對於數組和對象都是如此。lodash 有一個 cloneDeep 方法，但在使用之前應三思。
+    const wes = {
+      name: 'Wes',
+      age: 100,
+      social: {
+        twitter: '@123456',
+        facebook: '123456'
+      }
+    }
+    console.clear();
+    console.log(wes);
 
   </script>
 
